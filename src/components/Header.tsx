@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useLanguage } from '@/contexts/LanguageContext';
+import BR from 'country-flag-icons/react/3x2/BR';
+import US from 'country-flag-icons/react/3x2/US';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -77,16 +79,18 @@ export default function Header() {
                 }`}
               />
               {/* PT Button */}
-              <span className={`relative z-10 px-2.5 xl:px-3 py-1.5 rounded-full transition-colors duration-300 ${
+              <span className={`relative z-10 px-2.5 xl:px-3 py-1.5 rounded-full transition-colors duration-300 flex items-center gap-1.5 ${
                 language === 'pt' ? 'text-white' : 'text-gray-400'
               }`}>
-                🇧🇷 PT
+                <BR className="w-4 h-3" />
+                PT
               </span>
               {/* EN Button */}
-              <span className={`relative z-10 px-2.5 xl:px-3 py-1.5 rounded-full transition-colors duration-300 ${
+              <span className={`relative z-10 px-2.5 xl:px-3 py-1.5 rounded-full transition-colors duration-300 flex items-center gap-1.5 ${
                 language === 'en' ? 'text-white' : 'text-gray-400'
               }`}>
-                🇺🇸 EN
+                <US className="w-4 h-3" />
+                EN
               </span>
             </button>
 
@@ -210,15 +214,17 @@ export default function Header() {
                       language === 'pt' ? 'left-1' : 'left-[calc(50%+2px)]'
                     }`}
                   />
-                  <span className={`relative z-10 px-3 py-1.5 rounded-full transition-colors duration-300 ${
+                  <span className={`relative z-10 px-3 py-1.5 rounded-full transition-colors duration-300 flex items-center gap-1.5 ${
                     language === 'pt' ? 'text-white' : 'text-gray-400'
                   }`}>
-                    🇧🇷 PT
+                    <BR className="w-4 h-3" />
+                    PT
                   </span>
-                  <span className={`relative z-10 px-3 py-1.5 rounded-full transition-colors duration-300 ${
+                  <span className={`relative z-10 px-3 py-1.5 rounded-full transition-colors duration-300 flex items-center gap-1.5 ${
                     language === 'en' ? 'text-white' : 'text-gray-400'
                   }`}>
-                    🇺🇸 EN
+                    <US className="w-4 h-3" />
+                    EN
                   </span>
                 </button>
               </div>

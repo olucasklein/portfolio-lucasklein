@@ -33,7 +33,10 @@ O site foi projetado com foco em **performance**, **responsividade** e **experi�
 - 🎭 **Animações Suaves**: Transições e efeitos customizados em CSS
 - 🔍 **SEO Otimizado**: Meta tags e Open Graph configurados
 - 🎯 **Acessibilidade**: Código semântico e navegação intuitiva
-- 📬 **Formulário de Contato**: Integração pronta para receber mensagens
+- 📬 **Formulário de Contato**: Integração com Resend para envio de emails
+- 🌍 **i18n**: Suporte multilíngue (PT-BR e English)
+- 🤖 **SEO**: Meta tags, Open Graph, robots.txt e sitemap dinâmico
+- 🔧 **PWA Ready**: Manifest e theme colors configurados
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -48,6 +51,8 @@ O site foi projetado com foco em **performance**, **responsividade** e **experi�
 - **PostCSS** - Processamento CSS
 - **CSS Animations** - Animações customizadas (gradient, float, pulse-glow)
 - **Next/Image** - Otimização automática de imagens
+- **Resend** - Envio de emails via API
+- **Country Flag Icons** - Ícones de bandeiras para seletor de idiomas
 
 ## 📂 Estrutura do Projeto
 
@@ -55,60 +60,36 @@ O site foi projetado com foco em **performance**, **responsividade** e **experi�
 portfolio/
 ├── public/
 │   ├── favicon.svg          # Favicon customizado com gradiente LK
+│   ├── manifest.json        # PWA manifest
+│   ├── robots.txt           # Configuração para SEO
 │   └── perfil.jpg           # Foto de perfil
 ├── src/
 │   ├── app/
+│   │   ├── api/
+│   │   │   └── contact/
+│   │   │       └── route.ts # Rota para envio de emails com Resend
 │   │   ├── globals.css      # Estilos globais e animações
-│   │   ├── layout.tsx       # Layout raiz com metadata
+│   │   ├── layout.tsx       # Layout raiz com metadata e SEO
+│   │   ├── sitemap.ts       # Sitemap dinâmico para SEO
+│   │   ├── icon.svg         # Favicon automático
 │   │   └── page.tsx         # Página principal
-│   └── components/
-│       ├── Header.tsx       # Navegação fixa com scroll effect
-│       ├── Hero.tsx         # Seção hero com animações
-│       ├── About.tsx        # Sobre mim com estatísticas
-│       ├── Skills.tsx       # Habilidades técnicas
-│       ├── Experience.tsx   # Timeline de experiência
-│       ├── Projects.tsx     # Projetos em destaque
-│       ├── Contact.tsx      # Formulário de contato
-│       ├── Footer.tsx       # Rodapé com links
-│       └── index.ts         # Barrel exports
+│   ├── components/
+│   │   ├── Header.tsx       # Navegação fixa com switch de idiomas
+│   │   ├── Hero.tsx         # Seção hero com animações
+│   │   ├── About.tsx        # Sobre mim com estatísticas
+│   │   ├── Skills.tsx       # Habilidades técnicas
+│   │   ├── Experience.tsx   # Timeline de experiência
+│   │   ├── Projects.tsx     # Projetos em destaque
+│   │   ├── Contact.tsx      # Formulário de contato com Resend
+│   │   ├── Footer.tsx       # Rodapé com links
+│   │   └── index.ts         # Barrel exports
+│   └── contexts/
+│       └── LanguageContext.tsx # Context para i18n multilíngue
 ├── tailwind.config.ts       # Configuração Tailwind
 ├── tsconfig.json            # Configuração TypeScript
+├── eslint.config.mjs        # Configuração ESLint
 └── package.json             # Dependências e scripts
 ```
-
-## 🚀 Como Rodar Localmente
-
-### Pré-requisitos
-- Node.js 18+ instalado
-- npm, yarn, pnpm ou bun
-
-### Instalação
-
-1. Clone o repositório:
-```bash
-git clone https://github.com/olucasklein/portfolio.git
-cd portfolio
-```
-
-2. Instale as dependências:
-```bash
-npm install
-# ou
-yarn install
-# ou
-pnpm install
-```
-
-3. Rode o servidor de desenvolvimento:
-```bash
-npm run dev
-# ou
-yarn dev
-# ou
-pnpm dev
-```
-
-4. Abra [http://localhost:3000](http://localhost:3000) no navegador
 
 ## 🎨 Design System
 
