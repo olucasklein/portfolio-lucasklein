@@ -29,6 +29,13 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <>
       <header
@@ -41,14 +48,18 @@ export default function Header() {
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
+          <button
+            onClick={scrollToTop}
+            className="flex items-center gap-3 group cursor-pointer"
+            aria-label="Voltar ao topo"
+          >
             <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 via-cyan-400 to-pink-500 rounded-xl flex items-center justify-center transform group-hover:scale-110 transition-transform">
               <span className="text-white font-bold text-lg">LK</span>
             </div>
             <span className="text-xl font-semibold text-white hidden sm:block">
               Lucas Klein
             </span>
-          </Link>
+          </button>
 
           {/* Desktop Navigation */}
           <ul className="hidden lg:flex items-center gap-6 xl:gap-8">

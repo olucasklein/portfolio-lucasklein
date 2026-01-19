@@ -7,12 +7,14 @@ import {
   Projects,
   Contact,
   Footer,
+  ScrollToTop,
 } from '@/components';
 
 export default function Home() {
   return (
     <>
       <Header />
+      <ScrollToTop />
       <main>
         <Hero />
         <About />
