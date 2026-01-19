@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://lucasklein.dev
+
+# Sitemaps
+Sitemap: https://lucasklein.dev/sitemap.xml

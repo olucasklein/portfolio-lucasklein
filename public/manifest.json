@@ -1,0 +1,16 @@
+{
+  "name": "Lucas Klein - Portfolio",
+  "short_name": "Lucas Klein",
+  "description": "Desenvolvedor Front-End especializado em React, Next.js e TypeScript",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#6366f1",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
