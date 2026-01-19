@@ -47,8 +47,8 @@ const translations = {
     'about.stats.projects': 'Projetos Concluídos',
     'about.stats.technologies': 'Tecnologias',
     'about.stats.commits': 'Commits',
-    'about.education': 'Formação',
-    'about.degree': 'Sistemas de Informação',
+    'about.education': 'Formação Acadêmica',
+    'about.degree': 'Sistemas de Informação na UNESA',
     'about.studying': 'Estudando UX/UI Design',
 
     // Skills
@@ -68,12 +68,14 @@ const translations = {
     'experience.titleHighlight': 'Experiência',
     'experience.description': 'Uma jornada de aprendizado contínuo e evolução profissional no mundo do desenvolvimento web.',
     'experience.current': 'Presente',
-    'experience.tuna.role': 'Desenvolvedor Front-End Junior',
-    'experience.tuna.description': 'Desenvolvimento de interfaces modernas e escaláveis para plataforma de pagamentos. Trabalho com React, TypeScript e integração com APIs REST.',
+    'experience.tuna.junior.role': 'Desenvolvedor Front-End Junior',
+    'experience.tuna.junior.description': 'Desenvolvimento de interfaces modernas e escaláveis para plataforma de pagamentos. Trabalho com React, TypeScript, Tailwind CSS e integração com APIs REST, focando em melhoria contínua e qualidade do código.',
+    'experience.tuna.intern.role': 'Estagiário de Desenvolvimento Front-End',
+    'experience.tuna.intern.description': 'Início da jornada na Tuna, desenvolvendo componentes React e aprendendo boas práticas de desenvolvimento. Participação em projetos reais e crescimento constante da stack de tecnologias.',
+    'experience.admin.role': 'Assistente Administrativo',
+    'experience.admin.description': 'Atuação no setor de administração da empresa, utilização de CRM, manutenção de estoque, análise e impressão de relatórios e atendimento ao cliente por telefone, WhatsApp Business, Email e Chat.',
     'experience.freelance.role': 'Desenvolvedor Front-End',
     'experience.freelance.description': 'Desenvolvimento de sites institucionais, landing pages e aplicações web para diversos clientes. Foco em responsividade e experiência do usuário.',
-    'experience.vtex.role': 'Desenvolvedor (Hiring Coders)',
-    'experience.vtex.description': 'Participação no programa Hiring Coders, desenvolvendo projetos práticos de e-commerce, APIs e aplicações full-stack.',
 
     // Projects
     'projects.subtitle': 'Trabalhos',
@@ -144,8 +146,8 @@ const translations = {
     'about.stats.projects': 'Completed Projects',
     'about.stats.technologies': 'Technologies',
     'about.stats.commits': 'Commits',
-    'about.education': 'Education',
-    'about.degree': 'Information Systems',
+    'about.education': 'Academic Education',
+    'about.degree': 'Information Systems at UNESA',
     'about.studying': 'Studying UX/UI Design',
 
     // Skills
@@ -165,12 +167,14 @@ const translations = {
     'experience.titleHighlight': 'Experience',
     'experience.description': 'A journey of continuous learning and professional growth in the web development world.',
     'experience.current': 'Present',
-    'experience.tuna.role': 'Junior Front-End Developer',
-    'experience.tuna.description': 'Development of modern and scalable interfaces for payment platforms. Working with React, TypeScript, and REST API integration.',
+    'experience.tuna.junior.role': 'Junior Front-End Developer',
+    'experience.tuna.junior.description': 'Development of modern and scalable interfaces for payment platforms. Working with React, TypeScript, Tailwind CSS, and REST API integration, focusing on continuous improvement and code quality.',
+    'experience.tuna.intern.role': 'Front-End Development Intern',
+    'experience.tuna.intern.description': 'Beginning of the journey at Tuna, developing React components and learning best development practices. Participation in real projects and constant growth of the technology stack.',
+    'experience.admin.role': 'Administrative Assistant',
+    'experience.admin.description': 'Worked in the company\'s administration sector, using CRM, maintaining inventory, analyzing and printing reports, and customer service via phone, WhatsApp Business, Email, and Chat.',
     'experience.freelance.role': 'Front-End Developer',
     'experience.freelance.description': 'Development of institutional websites, landing pages, and web applications for various clients. Focus on responsiveness and user experience.',
-    'experience.vtex.role': 'Developer (Hiring Coders)',
-    'experience.vtex.description': 'Participation in the Hiring Coders program, developing practical e-commerce projects, APIs, and full-stack applications.',
 
     // Projects
     'projects.subtitle': 'Works',

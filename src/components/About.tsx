@@ -53,9 +53,9 @@ export default function About() {
                       <div className="text-gray-400 text-sm">{t('about.degree')}</div>
                     </div>
                   </div>
-                  <p className="text-gray-400 text-sm">
+                  {/* <p className="text-gray-400 text-sm">
                     {t('about.studying')}
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </div>

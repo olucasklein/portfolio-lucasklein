@@ -8,29 +8,38 @@ export default function Experience() {
   const experiences = [
     {
       company: 'Tuna Pagamentos',
-      role: t('experience.tuna.role'),
-      period: `Ago 2024 - ${t('experience.current')}`,
-      location: 'Rio de Janeiro, Brasil',
-      description: t('experience.tuna.description'),
-      technologies: ['React', 'TypeScript', 'Tailwind CSS', 'REST APIs'],
+      role: t('experience.tuna.junior.role'),
+      period: `2024 - ${t('experience.current')}`,
+      location: 'Remoto',
+      description: t('experience.tuna.junior.description'),
+      technologies: ['React', 'Angular', 'TypeScript', 'Tailwind CSS', 'REST APIs'],
       current: true,
     },
     {
-      company: 'Projetos Freelance',
+      company: 'Tuna Pagamentos',
+      role: t('experience.tuna.intern.role'),
+      period: 'Ago 2022 - 2024',
+      location: 'Remoto',
+      description: t('experience.tuna.intern.description'),
+      technologies: ['React', 'Angular', 'TypeScript', 'JavaScript', 'HTML/CSS'],
+      current: false,
+    },
+    {
+      company: 'Projetos Freelancer',
       role: t('experience.freelance.role'),
       period: `2020 - ${t('experience.current')}`,
       location: 'Remoto',
       description: t('experience.freelance.description'),
       technologies: ['React', 'Next.js', 'Angular', 'Node.js'],
-      current: false,
+      current: true,
     },
     {
-      company: 'VTEX - Gama Academy',
-      role: t('experience.vtex.role'),
-      period: '2021',
-      location: 'Remoto',
-      description: t('experience.vtex.description'),
-      technologies: ['JavaScript', 'HTML/CSS', 'Node.js', 'APIs'],
+      company: 'Irmãos Klein Confecção Moda Íntima',
+      role: t('experience.admin.role'),
+      period: 'Out 2021 - Jul 2022',
+      location: 'Rio de Janeiro, Brasil',
+      description: t('experience.admin.description'),
+      technologies: ['CRM', 'WhatsApp Business', 'Excel', 'Gestão'],
       current: false,
     },
   ];
@@ -81,28 +90,24 @@ export default function Experience() {
                 <div className={`ml-8 md:ml-0 md:w-1/2 ${index % 2 === 0 ? 'md:pr-12' : 'md:pl-12'}`}>
                   <div className="glass rounded-2xl p-6 card-hover">
                     {/* Header */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          {exp.current && (
-                            <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-xs rounded-full">
-                              {t('experience.current')}
-                            </span>
-                          )}
-                          <span className="text-gray-500 text-sm">{exp.period}</span>
-                        </div>
-                        <h3 className="text-xl font-bold text-white">{exp.role}</h3>
-                        <p className="text-indigo-400 font-medium">{exp.company}</p>
+                    <div className="mb-4">
+                      <div className="flex items-center gap-2 mb-1">
+                        {exp.current && (
+                          <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-xs rounded-full">
+                            {t('experience.current')}
+                          </span>
+                        )}
+                        <span className="text-gray-500 text-sm">{exp.period}</span>
                       </div>
-                      <div className="text-right">
-                        <span className="text-gray-500 text-sm flex items-center gap-1">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                          </svg>
-                          {exp.location}
-                        </span>
-                      </div>
+                      <h3 className="text-xl font-bold text-white">{exp.role}</h3>
+                      <p className="text-indigo-400 font-medium">{exp.company}</p>
+                      <span className="text-gray-500 text-sm flex items-center gap-1 mt-1">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        {exp.location}
+                      </span>
                     </div>
 
                     {/* Description */}
