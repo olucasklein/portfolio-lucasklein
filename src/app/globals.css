@@ -232,10 +232,23 @@ body {
   }
 }
 
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 .animate-fade-in {
   animation: fade-in 0.3s ease-out forwards;
 }
 
 .animate-slide-in-bottom {
   animation: slide-in-from-bottom 0.3s ease-out forwards;
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s infinite;
 }
