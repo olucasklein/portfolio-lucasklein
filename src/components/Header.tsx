@@ -28,13 +28,14 @@ export default function Header() {
   }, []);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-[#0a0a0a]/90 backdrop-blur-lg border-b border-white/10'
-          : 'bg-transparent'
-      }`}
-    >
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled || isMenuOpen
+            ? 'bg-[#0a0a0a]/90 backdrop-blur-lg border-b border-white/10'
+            : 'bg-transparent'
+        }`}
+      >
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -140,10 +141,12 @@ export default function Header() {
             </svg>
           </button>
         </div>
+      </nav>
+    </header>
 
-        {/* Mobile Menu - Slide-in Drawer */}
+        {/* Mobile Menu - Slide-in Drawer (Outside header to avoid transparency inheritance) */}
         <div 
-          className={`fixed inset-0 z-50 lg:hidden transition-opacity duration-300 ${
+          className={`fixed inset-0 z-[60] lg:hidden transition-opacity duration-300 ${
             isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
           }`}
         >
@@ -155,7 +158,7 @@ export default function Header() {
           
           {/* Drawer */}
           <div 
-            className={`absolute top-0 right-0 h-full w-72 max-w-[85vw] bg-[#0f0f0f] shadow-2xl transform transition-transform duration-300 ease-out ${
+            className={`absolute top-0 right-0 h-full w-72 max-w-[85vw] bg-[#0a0a0a] border-l border-white/10 shadow-2xl transform transition-transform duration-300 ease-out ${
               isMenuOpen ? 'translate-x-0' : 'translate-x-full'
             }`}
           >
@@ -242,7 +245,6 @@ export default function Header() {
             </div>
           </div>
         </div>
-      </nav>
-    </header>
+    </>
   );
 }

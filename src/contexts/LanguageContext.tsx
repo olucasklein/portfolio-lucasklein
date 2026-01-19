@@ -211,8 +211,11 @@ const translations = {
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>('pt');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    
     // Detect browser language
     const browserLang = navigator.language.split('-')[0];
     const savedLang = localStorage.getItem('language') as Language;
@@ -232,6 +235,15 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const t = (key: string): string => {
     return translations[language][key as keyof typeof translations['pt']] || key;
   };
+
+  // Prevent hydration mismatch by not rendering until mounted
+  if (!mounted) {
+    return (
+      <LanguageContext.Provider value={{ language: 'pt', setLanguage: handleSetLanguage, t }}>
+        {children}
+      </LanguageContext.Provider>
+    );
+  }
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t }}>
