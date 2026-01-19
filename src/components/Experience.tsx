@@ -2,7 +2,7 @@ const experiences = [
   {
     company: 'Tuna Pagamentos',
     role: 'Desenvolvedor Front-End Junior',
-    period: 'Atual',
+    period: 'Ago 2024 - Atual',
     location: 'Rio de Janeiro, Brasil',
     description: 'Desenvolvimento de interfaces modernas e escaláveis para plataforma de pagamentos. Trabalho com React, TypeScript e integração com APIs REST.',
     technologies: ['React', 'TypeScript', 'Tailwind CSS', 'REST APIs'],
