@@ -25,7 +25,7 @@ const translations = {
     'nav.language': 'Idioma',
 
     // Hero
-    'hero.available': 'Disponível para novos projetos',
+    'hero.available': 'Disponível',
     'hero.greeting': 'Olá, eu sou',
     'hero.role': 'Desenvolvedor Front-End',
     'hero.description': 'Com mais de',
@@ -124,7 +124,7 @@ const translations = {
     'nav.language': 'Language',
 
     // Hero
-    'hero.available': 'Available for new projects',
+    'hero.available': 'Available',
     'hero.greeting': 'Hello, I am',
     'hero.role': 'Front-End Developer',
     'hero.description': 'With over',
