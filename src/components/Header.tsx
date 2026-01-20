@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useLanguage } from '@/contexts/LanguageContext';
 import BR from 'country-flag-icons/react/3x2/BR';
@@ -9,6 +9,7 @@ import US from 'country-flag-icons/react/3x2/US';
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
   const { language, setLanguage, t } = useLanguage();
 
   const navLinks = [
@@ -28,6 +29,19 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isMenuOpen]);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -165,6 +179,7 @@ export default function Header() {
           className={`fixed inset-0 z-[60] lg:hidden transition-opacity duration-300 ${
             isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
           }`}
+          ref={menuRef}
         >
           {/* Backdrop */}
           <div 
@@ -177,6 +192,7 @@ export default function Header() {
             className={`absolute top-0 right-0 h-full w-72 max-w-[85vw] bg-[#0a0a0a] border-l border-white/10 shadow-2xl transform transition-transform duration-300 ease-out ${
               isMenuOpen ? 'translate-x-0' : 'translate-x-full'
             }`}
+            onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
             <div className="flex justify-end p-4">
