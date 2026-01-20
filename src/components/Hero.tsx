@@ -6,10 +6,24 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
   const { t } = useLanguage();
 
   useEffect(() => {
     setIsVisible(true);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setShowScrollIndicator(false);
+      } else {
+        setShowScrollIndicator(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
@@ -33,7 +47,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 pt-20 sm:pt-24 md:pt-32">
+      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 pt-20 sm:pt-24 md:pt-32 pb-20 sm:pb-24">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
           <div 
@@ -221,9 +235,11 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Scroll Indicator - Hidden on mobile */}
-        <div className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2">
-          <span className="text-gray-500 text-sm">{t('hero.scroll')}</span>
+        {/* Scroll Indicator */}
+        <div className={`absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-opacity duration-500 ${
+          showScrollIndicator ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}>
+          <span className="text-gray-500 text-xs sm:text-sm">{t('hero.scroll')}</span>
           <div className="w-6 h-10 border-2 border-gray-600 rounded-full flex justify-center pt-2">
             <div className="w-1 h-2 bg-gray-400 rounded-full animate-bounce" />
           </div>
