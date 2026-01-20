@@ -9,7 +9,7 @@ export default function Experience() {
     {
       company: 'Tuna Pagamentos',
       role: t('experience.tuna.junior.role'),
-      period: `2024 - ${t('experience.current')}`,
+      period: `2024 - ${t('experience.current2')}`,
       location: 'Remoto',
       description: t('experience.tuna.junior.description'),
       technologies: ['React', 'Angular', 'TypeScript', 'Tailwind CSS', 'REST APIs'],
@@ -27,7 +27,7 @@ export default function Experience() {
     {
       company: 'Projetos Freelancer',
       role: t('experience.freelance.role'),
-      period: `2020 - ${t('experience.current')}`,
+      period: `2020 - ${t('experience.current2')}`,
       location: 'Remoto',
       description: t('experience.freelance.description'),
       technologies: ['React', 'Next.js', 'Angular', 'Node.js'],

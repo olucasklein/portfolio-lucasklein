@@ -9,7 +9,7 @@ export default function Projects() {
     {
       title: 'TechScore',
       description: t('projects.techscore.description'),
-      image: '/projects/techscore.jpg',
+      image: 'https://raw.githubusercontent.com/olucasklein/tech-score/refs/heads/master/assets/app-img-3.jpg',
       technologies: ['React Native', 'Expo', 'TypeScript', 'AsyncStorage'],
       github: 'https://github.com/olucasklein/tech-score',
       demo: null,
@@ -18,7 +18,7 @@ export default function Projects() {
     {
       title: 'Seu Site - Whitelabel',
       description: t('projects.seusite.description'),
-      image: '/projects/seu-site.jpg',
+      image: 'https://raw.githubusercontent.com/olucasklein/seu-site/refs/heads/master/public/image-example.png',
       technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
       github: 'https://github.com/olucasklein/seu-site',
       demo: 'https://seu-site-beta.vercel.app',
@@ -104,11 +104,20 @@ export default function Projects() {
             >
               {/* Image Placeholder */}
               <div className="relative h-64 bg-gradient-to-br from-gray-800 to-gray-900 overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-6xl opacity-30">
-                    {index === 0 ? '🎾' : '🌐'}
+                {project.image && (
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                  />
+                )}
+                {!project.image && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-6xl opacity-30">
+                      {index === 0 ? '🎾' : '🌐'}
+                    </div>
                   </div>
-                </div>
+                )}
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
                 
