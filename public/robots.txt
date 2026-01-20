@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://lucasklein.dev
+Host: https://www.lucaskleindev.com/
 
 # Sitemaps
-Sitemap: https://lucasklein.dev/sitemap.xml
+Sitemap: https://www.lucaskleindev.com/sitemap.xml
