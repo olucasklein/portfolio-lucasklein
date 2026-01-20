@@ -87,6 +87,7 @@ const translations = {
     'projects.viewDemo': 'Ver Demo',
     'projects.techscore.description': 'Aplicativo mobile para contagem de pontos em partidas de tênis e beach tennis. Interface intuitiva com suporte a diferentes modos de jogo.',
     'projects.seusite.description': 'Plataforma whitelabel para criação de sites institucionais. Sistema flexível que permite personalização completa para diferentes clientes.',
+    'projects.checkout.description': 'Sistema de checkout completo e moderno com cartão 3D interativo, múltiplos métodos de pagamento (PIX, Boleto, Crédito/Débito) e internacionalização completa.',
 
     // Contact
     'contact.subtitle': 'Fale Comigo',
@@ -187,6 +188,7 @@ const translations = {
     'projects.viewDemo': 'View Demo',
     'projects.techscore.description': 'Mobile app for scoring tennis and beach tennis matches. Intuitive interface with support for different game modes.',
     'projects.seusite.description': 'Whitelabel platform for creating institutional websites. Flexible system that allows complete customization for different clients.',
+    'projects.checkout.description': 'Complete modern checkout system with interactive 3D card, multiple payment methods (PIX, Boleto, Credit/Debit) and full internationalization.',
 
     // Contact
     'contact.subtitle': 'Get in Touch',
