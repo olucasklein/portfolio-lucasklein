@@ -13,7 +13,7 @@
 
 *Desenvolvedor Front-End | React, Next.js, Angular & TypeScript*
 
-[🌐 Ver Demo](https://www.lucaskleindev.com) • [📧 Contato](mailto:olucasklein@hotmail.com) • [💼 LinkedIn](https://www.linkedin.com/in/olucasklein/)
+[🌐 Ver Portfolio](https://www.lucaskleindev.com) • [📧 Contato](mailto:olucasklein@hotmail.com) • [💼 LinkedIn](https://www.linkedin.com/in/olucasklein/)
 
 </div>
 
