@@ -3,8 +3,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useLanguage } from '@/contexts/LanguageContext';
-import BR from 'country-flag-icons/react/3x2/BR';
-import US from 'country-flag-icons/react/3x2/US';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -99,7 +97,7 @@ export default function Header() {
             >
               {/* Background Slider */}
               <div 
-                className={`absolute top-1 h-[calc(100%-8px)] w-[calc(50%-4px)] bg-theme-gradient rounded-full transition-all duration-300 ease-out ${
+                className={`absolute top-1 h-[calc(100%-8px)] w-[calc(50%-8px)] bg-theme-gradient rounded-full transition-all duration-300 ease-out ${
                   language === 'pt' ? 'left-1' : 'left-[calc(50%+2px)]'
                 }`}
               />
@@ -107,30 +105,15 @@ export default function Header() {
               <span className={`relative z-10 px-2.5 xl:px-3 py-1.5 rounded-full transition-all duration-300 flex items-center gap-1.5 hover:bg-white/10 ${
                 language === 'pt' ? 'text-white' : 'text-gray-400'
               }`}>
-                <BR className="w-4 h-3" />
                 PT
               </span>
               {/* EN Button */}
               <span className={`relative z-10 px-2.5 xl:px-3 py-1.5 rounded-full transition-all duration-300 flex items-center gap-1.5 hover:bg-white/10 ${
                 language === 'en' ? 'text-white' : 'text-gray-400'
               }`}>
-                <US className="w-4 h-3" />
                 EN
               </span>
             </button>
-
-            {/* Download CV */}
-            <a
-              href="/resume.pdf"
-              download
-              className="flex items-center gap-2 px-3 xl:px-4 py-2 glass rounded-lg text-sm font-medium text-gray-300 hover:text-white transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              <span className="hidden xl:inline">{t('nav.downloadCV')}</span>
-              <span className="xl:hidden">CV</span>
-            </a>
 
             {/* CTA Button */}
             <a
@@ -237,35 +220,35 @@ export default function Header() {
                   className="relative flex items-center p-1 bg-white/5 border border-white/10 rounded-full text-xs font-medium"
                 >
                   <div 
-                    className={`absolute top-1 h-[calc(100%-8px)] w-[calc(50%-4px)] bg-theme-gradient rounded-full transition-all duration-300 ease-out ${
+                    className={`absolute top-1 h-[calc(100%-8px)] w-[calc(50%-8px)] bg-theme-gradient rounded-full transition-all duration-300 ease-out ${
                       language === 'pt' ? 'left-1' : 'left-[calc(50%+2px)]'
                     }`}
                   />
                   <span className={`relative z-10 px-3 py-1.5 rounded-full transition-colors duration-300 flex items-center gap-1.5 ${
                     language === 'pt' ? 'text-white' : 'text-gray-400'
                   }`}>
-                    <BR className="w-4 h-3" />
                     PT
                   </span>
                   <span className={`relative z-10 px-3 py-1.5 rounded-full transition-colors duration-300 flex items-center gap-1.5 ${
                     language === 'en' ? 'text-white' : 'text-gray-400'
                   }`}>
-                    <US className="w-4 h-3" />
                     EN
                   </span>
                 </button>
               </div>
               
-              {/* Download CV */}
+              {/* LinkedIn Button */}
               <a
-                href="/resume.pdf"
-                download
+                href="https://www.linkedin.com/in/olucasklein/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMenuOpen(false)}
                 className="flex items-center justify-center gap-2 w-full py-3 bg-white/5 border border-white/10 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z" />
                 </svg>
-                {t('nav.downloadCV')}
+                LinkedIn
               </a>
               
               {/* CTA Button */}

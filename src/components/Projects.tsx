@@ -7,7 +7,7 @@ export default function Projects() {
 
   const projects = [
     {
-      title: 'Sistema de Checkout Moderno',
+      title: t('projects.checkout.title'),
       description: t('projects.checkout.description'),
       image: 'https://raw.githubusercontent.com/olucasklein/checkout/refs/heads/main/public/example.png',
       technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
@@ -16,7 +16,7 @@ export default function Projects() {
       featured: true,
     },
     {
-      title: 'Seu Site - Whitelabel',
+      title: t('projects.seusite.title'),
       description: t('projects.seusite.description'),
       image: 'https://raw.githubusercontent.com/olucasklein/seu-site/refs/heads/master/public/image-example.png',
       technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
@@ -25,7 +25,7 @@ export default function Projects() {
       featured: true,
     },
     {
-      title: 'TechScore',
+      title: t('projects.techscore.title'),
       description: t('projects.techscore.description'),
       image: 'https://raw.githubusercontent.com/olucasklein/tech-score/refs/heads/master/assets/app-img-3.jpg',
       technologies: ['React Native', 'Expo', 'TypeScript', 'AsyncStorage'],
@@ -34,10 +34,8 @@ export default function Projects() {
       featured: true,
     },
     {
-      title: language === 'pt' ? 'Mais por vir...' : 'More coming soon...',
-      description: language === 'pt' 
-        ? 'Novos projetos incríveis estão sendo desenvolvidos. Fique atento para as próximas atualizações!' 
-        : 'Amazing new projects are being developed. Stay tuned for upcoming updates!',
+      title: t('projects.comingsoon.title'),
+      description: t('projects.comingSoon.description'),
       image: null,
       github: null,
       demo: null,
@@ -45,10 +43,8 @@ export default function Projects() {
       comingSoon: true,
     },
     {
-      title: 'E-commerce Apple Fun',
-      description: language === 'pt' 
-        ? 'Sistema de E-commerce desenvolvido durante o Hiring Coders, com gestão de clientes, endereços e produtos estruturados.'
-        : 'E-commerce system developed during Hiring Coders, with customer management, addresses, and structured products.',
+      title: t('projects.applefun.title'),
+      description: t('projects.applefun.description'),
       image: '/projects/apple-fun.jpg',
       technologies: ['HTML', 'CSS', 'JavaScript', 'LocalStorage'],
       github: 'https://github.com/olucasklein/gama-apple-fun',
@@ -56,10 +52,8 @@ export default function Projects() {
       featured: false,
     },
     {
-      title: 'Black Friday Landing Page',
-      description: language === 'pt'
-        ? 'Landing page responsiva estilo Black Friday desenvolvida durante o Hiring Coders com captura de dados no LocalStorage.'
-        : 'Responsive Black Friday-style landing page developed during Hiring Coders with data capture in LocalStorage.',
+      title: t('projects.blackfriday.title'),
+      description: t('projects.blackfriday.description'),
       image: '/projects/blackfriday.jpg',
       technologies: ['HTML', 'CSS', 'JavaScript'],
       github: 'https://github.com/olucasklein/gama-blackfriday-relampago',
@@ -67,10 +61,8 @@ export default function Projects() {
       featured: false,
     },
     {
-      title: 'To-Do List Angular',
-      description: language === 'pt'
-        ? 'Aplicação de lista de tarefas desenvolvida em Angular com recursos de adicionar, editar e remover tarefas.'
-        : 'Task list application developed in Angular with features to add, edit, and remove tasks.',
+      title: t('projects.todoangular.title'),
+      description: t('projects.todoangular.description'),
       image: '/projects/todolist.jpg',
       technologies: ['Angular', 'TypeScript', 'SCSS'],
       github: 'https://github.com/olucasklein/todolist-angular',
@@ -78,10 +70,8 @@ export default function Projects() {
       featured: false,
     },
     {
-      title: 'To-Do List JavaScript',
-      description: language === 'pt'
-        ? 'To-Do List básica em JavaScript puro desenvolvida durante o Hiring Coders da VTEX com Gama Academy.'
-        : 'Basic To-Do List in pure JavaScript developed during VTEX Hiring Coders with Gama Academy.',
+      title: t('projects.todojs.title'),
+      description: t('projects.todojs.description'),
       image: '/projects/todolist-js.jpg',
       technologies: ['HTML', 'CSS', 'JavaScript'],
       github: 'https://github.com/olucasklein/gama-todolist',
@@ -145,7 +135,7 @@ export default function Projects() {
                 {!project.comingSoon && (
                   <div className="absolute top-4 left-4">
                     <span className="px-3 py-1 bg-theme-gradient text-white text-xs font-medium rounded-full">
-                      {language === 'pt' ? 'Destaque' : 'Featured'}
+                      {t('projects.featured')}
                     </span>
                   </div>
                 )}
@@ -154,7 +144,7 @@ export default function Projects() {
                 {project.comingSoon && (
                   <div className="absolute top-4 left-4">
                     <span className="px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-medium rounded-full">
-                      {language === 'pt' ? 'Em Breve' : 'Coming Soon'}
+                      {t('projects.comingSoon')}
                     </span>
                   </div>
                 )}
@@ -215,7 +205,7 @@ export default function Projects() {
 
         {/* Other Projects */}
         <h3 className="text-xl font-semibold text-white mb-8 text-center">
-          Outros Projetos
+          {t('projects.moreProjects')}
         </h3>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {otherProjects.map((project, index) => (
@@ -280,7 +270,7 @@ export default function Projects() {
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
             </svg>
-            Ver Mais no GitHub
+            {t('projects.viewMoreGithub')}
           </a>
         </div>
       </div>

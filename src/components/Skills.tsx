@@ -152,17 +152,17 @@ export default function Skills() {
 
         {/* Soft Skills */}
         <div className="mt-16 text-center">
-          <h3 className="text-xl font-semibold text-white mb-6">Soft Skills</h3>
+          <h3 className="text-xl font-semibold text-white mb-6">{t('skills.softSkills')}</h3>
           <div className="flex flex-wrap justify-center gap-4">
             {[
-              'Trabalho em Equipe',
-              'Comunicação',
-              'Resolução de Problemas',
-              'Adaptabilidade',
-              'Aprendizado Contínuo',
-              'Atenção aos Detalhes',
-              'Gestão de Tempo',
-              'Criatividade',
+              t('skills.teamwork'),
+              t('skills.communication'),
+              t('skills.problemSolving'),
+              t('skills.adaptability'),
+              t('skills.continuousLearning'),
+              t('skills.attention'),
+              t('skills.timeManagement'),
+              t('skills.creativity'),
             ].map((skill, index) => (
               <span
                 key={index}

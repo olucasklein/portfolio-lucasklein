@@ -34,7 +34,7 @@ export default function About() {
                   </div>
                   <div className="text-center p-4 bg-white/5 rounded-xl">
                     <div className="text-4xl font-bold gradient-text">∞</div>
-                    <div className="text-gray-400 text-sm mt-1">{language === 'pt' ? 'Aprendizado Contínuo' : 'Continuous Learning'}</div>
+                    <div className="text-gray-400 text-sm mt-1">{t('about.stats.commits')}</div>
                   </div>
                 </div>
 
@@ -71,8 +71,8 @@ export default function About() {
               {t('about.subtitle')}
             </span>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mt-2 mb-6">
-              {language === 'pt' ? 'Transformando ideias em' : 'Transforming ideas into'}{' '}
-              <span className="gradient-text">{language === 'pt' ? 'experiências digitais' : 'digital experiences'}</span>
+              {t('about.transforming')}{' '}
+              <span className="gradient-text">{t('about.experiences')}</span>
             </h2>
             
             <div className="space-y-4 text-gray-400 text-lg leading-relaxed">
@@ -87,10 +87,10 @@ export default function About() {
             {/* Highlights */}
             <div className="mt-8 grid sm:grid-cols-2 gap-4">
               {[
-                { icon: '🎯', text: 'Clean Code' },
-                { icon: '🚀', text: 'Performance First' },
-                { icon: '📱', text: 'Mobile Responsive' },
-                { icon: '✨', text: 'Pixel Perfect' },
+                { icon: '🎯', text: t('about.highlights.clean') },
+                { icon: '🚀', text: t('about.highlights.performance') },
+                { icon: '📱', text: t('about.highlights.responsive') },
+                { icon: '✨', text: t('about.highlights.pixel') },
               ].map((item, index) => (
                 <div
                   key={index}
@@ -100,19 +100,6 @@ export default function About() {
                   <span className="text-gray-300">{item.text}</span>
                 </div>
               ))}
-            </div>
-
-            <div className="mt-8">
-              <a
-                href="/resume.pdf"
-                download
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white font-medium rounded-xl hover:opacity-90 transition-all"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                {t('nav.downloadCV')}
-              </a>
             </div>
           </div>
         </div>
