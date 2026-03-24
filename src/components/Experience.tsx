@@ -1,15 +1,31 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Experience() {
   const { t } = useLanguage();
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+    const elements = sectionRef.current?.querySelectorAll('.reveal');
+    elements?.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 
   const experiences = [
     {
       company: 'Tuna Pagamentos',
       role: t('experience.tuna.junior.role'),
-      period: `2024 - ${t('experience.current2')}`,
+      period: `2024 — ${t('experience.current2')}`,
       location: t('experience.location.remote'),
       description: t('experience.tuna.junior.description'),
       technologies: ['React', 'Angular', 'TypeScript', 'Tailwind CSS', 'REST APIs'],
@@ -18,139 +34,103 @@ export default function Experience() {
     {
       company: 'Tuna Pagamentos',
       role: t('experience.tuna.intern.role'),
-      period: 'Ago 2022 - 2024',
+      period: 'Ago 2022 — 2024',
       location: t('experience.location.remote'),
       description: t('experience.tuna.intern.description'),
       technologies: ['React', 'Angular', 'TypeScript', 'JavaScript', 'HTML/CSS'],
       current: false,
     },
     {
-      company: 'Projetos Freelancer',
+      company: t('experience.freelance.role') === 'Desenvolvedor Front-End' ? 'Projetos Freelancer' : 'Freelance Projects',
       role: t('experience.freelance.role'),
-      period: `2020 - ${t('experience.current2')}`,
+      period: `2020 — ${t('experience.current2')}`,
       location: t('experience.location.remote'),
       description: t('experience.freelance.description'),
       technologies: ['React', 'Next.js', 'Angular', 'Node.js'],
       current: true,
     },
     {
-      company: 'Irmãos Klein Confecção Moda Íntima',
+      company: 'Irmãos Klein',
       role: t('experience.admin.role'),
-      period: 'Out 2021 - Jul 2022',
+      period: 'Out 2021 — Jul 2022',
       location: t('experience.location.rj'),
       description: t('experience.admin.description'),
-      technologies: ['CRM', 'WhatsApp Business', 'Excel', 'Gestão'],
+      technologies: ['CRM', 'WhatsApp Business', 'Excel'],
       current: false,
     },
   ];
 
   return (
-    <section id="experiencia" className="py-24 relative">
-      {/* Background */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-800 to-transparent" />
-      </div>
+    <section id="experiencia" ref={sectionRef} className="py-24 md:py-32 relative">
+      {/* Divider */}
+      <div className="divider mb-24 md:mb-32" />
 
-      <div className="container mx-auto px-6">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-pink-400 font-medium text-sm uppercase tracking-wider">
+        <div className="reveal mb-16 md:mb-20">
+          <span className="text-xs font-light tracking-[0.3em] uppercase text-muted block mb-4">
             {t('experience.subtitle')}
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mt-2 mb-4">
-            {t('experience.title')} <span className="gradient-text">{t('experience.titleHighlight')}</span>
+          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-normal tracking-tight">
+            {t('experience.title')}{' '}
+            <span className="italic">{t('experience.titleHighlight')}</span>
           </h2>
-          <p className="text-gray-400 text-lg">
-            {t('experience.description')}
-          </p>
         </div>
 
-        {/* Timeline */}
-        <div className="max-w-4xl mx-auto">
-          <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-0 md:left-1/2 transform md:-translate-x-px top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-500 via-violet-500 to-purple-500" />
-
-            {/* Timeline Items */}
-            {experiences.map((exp, index) => (
-              <div
-                key={index}
-                className={`relative flex flex-col md:flex-row gap-8 mb-12 ${
-                  index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}
-              >
-                {/* Timeline Dot */}
-                <div className="absolute left-0 md:left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-theme-gradient-br border-4 border-[#0a0a0a]">
-                  {exp.current && (
-                    <div className="absolute inset-0 rounded-full bg-indigo-500 animate-ping" />
-                  )}
-                </div>
-
-                {/* Content */}
-                <div className={`ml-8 md:ml-0 md:w-1/2 ${index % 2 === 0 ? 'md:pr-12' : 'md:pl-12'}`}>
-                  <div className="glass rounded-2xl p-6 card-hover">
-                    {/* Header */}
-                    <div className="mb-4">
-                      <div className="flex items-center gap-2 mb-1">
-                        {exp.current && (
-                          <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-xs rounded-full">
-                            {t('experience.current')}
-                          </span>
-                        )}
-                        <span className="text-gray-500 text-sm">{exp.period}</span>
-                      </div>
-                      <h3 className="text-xl font-bold text-white">{exp.role}</h3>
-                      <p className="text-violet-400 font-medium">{exp.company}</p>
-                      <span className="text-gray-500 text-sm flex items-center gap-1 mt-1">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        {exp.location}
+        {/* Experience Items */}
+        <div className="max-w-3xl">
+          {experiences.map((exp, index) => (
+            <div key={index} className="reveal experience-item group">
+              <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-3">
+                <div>
+                  <div className="flex items-center gap-3 mb-1">
+                    <h3 className="text-white text-lg font-medium">{exp.role}</h3>
+                    {exp.current && (
+                      <span className="inline-flex items-center gap-1.5 text-emerald-400 text-xs font-light">
+                        <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+                        {t('experience.current')}
                       </span>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-gray-400 mb-4 leading-relaxed">
-                      {exp.description}
-                    </p>
-
-                    {/* Technologies */}
-                    <div className="flex flex-wrap gap-2">
-                      {exp.technologies.map((tech, techIndex) => (
-                        <span
-                          key={techIndex}
-                          className="px-3 py-1 bg-white/5 text-gray-300 text-sm rounded-lg"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
+                    )}
                   </div>
+                  <p className="text-muted text-sm font-light">
+                    {exp.company} · {exp.location}
+                  </p>
                 </div>
-
-                {/* Empty space for alternating layout */}
-                <div className="hidden md:block md:w-1/2" />
+                <span className="text-muted text-xs font-light tracking-wide whitespace-nowrap mt-1 md:mt-0">
+                  {exp.period}
+                </span>
               </div>
-            ))}
-          </div>
+
+              <p className="text-muted text-sm font-light leading-relaxed mb-4 max-w-xl">
+                {exp.description}
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {exp.technologies.map((tech, techIndex) => (
+                  <span key={techIndex} className="tag">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
 
-        {/* Call to Action */}
-        <div className="text-center mt-16">
-          <p className="text-gray-400 mb-6">
-            {t('experience.interestedMore')}
-          </p>
+        {/* LinkedIn CTA */}
+        <div className="reveal mt-12">
           <a
             href="https://www.linkedin.com/in/olucasklein/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 glass text-white font-medium rounded-xl hover:bg-white/10 transition-all"
+            className="btn-outline group"
           >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
               <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
             </svg>
             {t('experience.viewFullLinkedin')}
+            <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
           </a>
         </div>
       </div>
