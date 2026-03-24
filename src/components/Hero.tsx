@@ -11,6 +11,7 @@ export default function Hero() {
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const [isSplineLoaded, setIsSplineLoaded] = useState(false);
   const [hasWebGL, setHasWebGL] = useState<boolean>(true); // assume true initially
+  const [inView, setInView] = useState(true);
   const { t } = useLanguage();
 
   const splineAppRef = useRef<Application | null>(null);
@@ -62,10 +63,12 @@ export default function Hero() {
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          splineAppRef.current?.play();
-        } else {
+        setInView(entry.isIntersecting);
+        if (!entry.isIntersecting) {
           splineAppRef.current?.stop();
+          // Resetamos o loading do spline para que, ao voltar, 
+          // a transição de opacidade aconteça suavemente de novo
+          setIsSplineLoaded(false); 
         }
       });
     }, { threshold: 0 });
@@ -111,8 +114,8 @@ export default function Hero() {
             />
           </div>
 
-          {/* Spline 3D Background - ONLY render if Hardware Acceleration is available */}
-          {hasWebGL && (
+          {/* Spline 3D Background - ONLY render if Hardware Acceleration is available AND in view */}
+          {hasWebGL && inView && (
             <div 
               className={`spline-container z-0 w-full h-[110%] transition-opacity duration-[1500ms] ${
                 isSplineLoaded ? (isMobile ? 'opacity-[0.4]' : 'opacity-100') : 'opacity-0'
