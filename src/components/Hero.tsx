@@ -20,31 +20,19 @@ export default function Hero() {
       className="min-h-screen flex items-center relative overflow-hidden"
     >
       {/* Spline 3D Background — Laptop/Computer scene */}
-      <div className="spline-container">
+      <div className="spline-container w-full h-[120%] z-0">
         <Suspense fallback={null}>
-          <Spline scene="https://prod.spline.design/i8eNphGELT2tDQVT/scene.splinecode" />
+          <Spline scene="https://prod.spline.design/7RKcpSScLxhwqscW/scene.splinecode" />
         </Suspense>
       </div>
 
-      {/* Gradient overlays for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0c0c0c] via-[#0c0c0c]/80 to-transparent z-[1] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0c0c0c] to-transparent z-[1] pointer-events-none" />
+      {/* Subtle shadow behind text only — keeps Spline fully visible */}
+      <div
+        className="absolute inset-0 z-[1] pointer-events-none"
+      />
 
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full relative z-[2]">
         <div className="max-w-2xl">
-          {/* Available badge */}
-          <div
-            className={`transition-all duration-700 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-            }`}
-          >
-            <div className="inline-flex items-center gap-2 mb-8">
-              <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-              <span className="text-xs font-light tracking-widest uppercase text-muted">
-                {t('hero.available')}
-              </span>
-            </div>
-          </div>
 
           {/* Main heading */}
           <div
@@ -125,7 +113,7 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[2] flex flex-col items-center gap-3">
-        <span className="text-muted text-[10px] tracking-[0.3em] uppercase font-light">{t('hero.scroll')}</span>
+        <span className="text-white text-[10px] tracking-[0.3em] uppercase font-light">{t('hero.scroll')}</span>
         <div className="w-px h-8 bg-gradient-to-b from-white/40 to-transparent" />
       </div>
     </section>
