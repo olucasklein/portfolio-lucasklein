@@ -8,6 +8,7 @@ const Spline = lazy(() => import('@splinetool/react-spline'));
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
+  const [isSplineLoaded, setIsSplineLoaded] = useState(false);
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -25,22 +26,52 @@ export default function Hero() {
     };
   }, []);
 
+  // Determine final opacity based on mobile or desktop
+  const splineOpacityClass = isMobile ? 'opacity-[0.4]' : 'opacity-100';
+
   return (
     <section
       id="inicio"
       className="min-h-screen flex items-center relative overflow-hidden"
     >
-      {/* Spline 3D Background — Rendered conditionally via React so iOS doesn't crash */}
+      {/* 3D Scene Placeholders & Spline Canvas */}
       {isMobile !== null && (
-        <div className={`spline-container z-0 w-full h-[120%] ${isMobile ? 'opacity-[0.4]' : ''}`}>
-          <Suspense fallback={null}>
-            {isMobile ? (
-              <Spline scene="https://prod.spline.design/8VioTqljzycarKCr/scene.splinecode" />
-            ) : (
-              <Spline scene="https://prod.spline.design/7RKcpSScLxhwqscW/scene.splinecode" />
-            )}
-          </Suspense>
-        </div>
+        <>
+          {/* Blurred Placeholder Images (Static background) */}
+          <div 
+            className={`absolute top-0 left-0 z-[-1] w-full h-[120%] pointer-events-none ${
+              isMobile ? 'opacity-[0.4]' : 'opacity-100'
+            }`}
+          >
+            <img 
+              src={isMobile ? '/lazy2.png' : '/lazy.png'} 
+              alt="" 
+              className="w-full h-full object-cover blur-sm scale-90"
+              aria-hidden="true"
+            />
+          </div>
+
+          {/* Spline 3D Background */}
+          <div 
+            className={`spline-container z-0 w-full h-[120%] ${
+              isMobile ? 'opacity-[0.4]' : 'opacity-100'
+            }`}
+          >
+            <Suspense fallback={null}>
+              {isMobile ? (
+                <Spline 
+                  scene="https://prod.spline.design/8VioTqljzycarKCr/scene.splinecode" 
+                  onLoad={() => setIsSplineLoaded(true)}
+                />
+              ) : (
+                <Spline 
+                  scene="https://prod.spline.design/7RKcpSScLxhwqscW/scene.splinecode" 
+                  onLoad={() => setIsSplineLoaded(true)}
+                />
+              )}
+            </Suspense>
+          </div>
+        </>
       )}
 
       {/* Subtle shadow behind text only — keeps Spline fully visible */}
