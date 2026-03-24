@@ -9,7 +9,7 @@
   --accent: #d4d4d4;
   --border: rgba(255, 255, 255, 0.08);
   --card: rgba(255, 255, 255, 0.03);
-  
+
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
@@ -74,6 +74,7 @@ body {
     opacity: 0;
     transform: translateY(40px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -81,8 +82,13 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideInLeft {
@@ -90,6 +96,7 @@ body {
     opacity: 0;
     transform: translateX(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -97,18 +104,33 @@ body {
 }
 
 @keyframes revealLine {
-  from { width: 0; }
-  to { width: 100%; }
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
 }
 
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .animate-fade-in-up {
@@ -128,21 +150,44 @@ body {
 }
 
 /* Stagger delays */
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-.delay-400 { animation-delay: 400ms; }
-.delay-500 { animation-delay: 500ms; }
-.delay-600 { animation-delay: 600ms; }
-.delay-700 { animation-delay: 700ms; }
-.delay-800 { animation-delay: 800ms; }
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+.delay-600 {
+  animation-delay: 600ms;
+}
+
+.delay-700 {
+  animation-delay: 700ms;
+}
+
+.delay-800 {
+  animation-delay: 800ms;
+}
 
 /* ============ COMPONENTS ============ */
 
 /* Navigation link hover */
 .nav-link {
   position: relative;
-  color: var(--muted);
+  color: var(--white);
   transition: color 0.3s ease;
 }
 
@@ -355,7 +400,7 @@ img {
   align-items: center;
   gap: 4px;
   padding: 4px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--foreground);
   border-radius: 100px;
 }
 
@@ -364,7 +409,7 @@ img {
   border-radius: 100px;
   font-size: 12px;
   font-weight: 500;
-  color: var(--muted);
+  color: var(--foreground);
   transition: all 0.3s ease;
   background: transparent;
   border: none;
