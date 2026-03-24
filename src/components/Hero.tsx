@@ -19,10 +19,17 @@ export default function Hero() {
       id="inicio"
       className="min-h-screen flex items-center relative overflow-hidden"
     >
-      {/* Spline 3D Background — Laptop/Computer scene */}
-      <div className="spline-container w-full h-[120%] z-0">
+      {/* Spline 3D Background — Desktop Scene */}
+      <div className="spline-container hidden md:block z-0 w-full h-[120%]">
         <Suspense fallback={null}>
           <Spline scene="https://prod.spline.design/7RKcpSScLxhwqscW/scene.splinecode" />
+        </Suspense>
+      </div>
+
+      {/* Spline 3D Background — Mobile Scene */}
+      <div className="spline-container block md:hidden z-0 w-full h-[120%] opacity-[0.4]">
+        <Suspense fallback={null}>
+          <Spline scene="https://prod.spline.design/8VioTqljzycarKCr/scene.splinecode" />
         </Suspense>
       </div>
 
@@ -40,7 +47,7 @@ export default function Hero() {
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
             }`}
           >
-            <p className="text-sm md:text-base font-light text-muted mb-3 tracking-wide">
+            <p className="text-sm md:text-base font-light text-white md:text-[#888888] mb-3 tracking-wide">
               {t('hero.greeting')}
             </p>
             <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-normal leading-[0.95] mb-6 tracking-tight">
@@ -56,7 +63,7 @@ export default function Hero() {
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
             }`}
           >
-            <p className="text-lg md:text-xl text-muted font-light mb-8 max-w-md leading-relaxed">
+            <p className="text-lg md:text-xl text-white md:text-[#888888] font-light mb-8 max-w-md leading-relaxed">
               {t('hero.role')}
               <span className="block text-sm mt-2 opacity-60">
                 {t('hero.experience')} · React · Next.js · Angular · TypeScript
