@@ -4,8 +4,8 @@
   "description": "Desenvolvedor Front-End especializado em React, Next.js e TypeScript",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0a0a",
-  "theme_color": "#6366f1",
+  "background_color": "#0c0c0c",
+  "theme_color": "#0c0c0c",
   "icons": [
     {
       "src": "/favicon.svg",

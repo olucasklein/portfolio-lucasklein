@@ -19,14 +19,14 @@ export default function Hero() {
       id="inicio"
       className="min-h-screen flex items-center relative overflow-hidden"
     >
-      {/* Spline 3D Background */}
+      {/* Spline 3D Background — Laptop/Computer scene */}
       <div className="spline-container">
         <Suspense fallback={null}>
-          <Spline scene="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode" />
+          <Spline scene="https://prod.spline.design/i8eNphGELT2tDQVT/scene.splinecode" />
         </Suspense>
       </div>
 
-      {/* Subtle gradient overlay for readability */}
+      {/* Gradient overlays for text readability */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#0c0c0c] via-[#0c0c0c]/80 to-transparent z-[1] pointer-events-none" />
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0c0c0c] to-transparent z-[1] pointer-events-none" />
 
