@@ -7,11 +7,22 @@ const Spline = lazy(() => import('@splinetool/react-spline'));
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const { t } = useLanguage();
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100);
-    return () => clearTimeout(timer);
+
+    // Check screen size to render only ONE Spline scene at a time
+    // Important: iOS Safari breaks/fails if multiple WebGL contexts load simultaneously
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile(); // Check initial size
+    window.addEventListener('resize', checkMobile);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', checkMobile);
+    };
   }, []);
 
   return (
@@ -19,19 +30,18 @@ export default function Hero() {
       id="inicio"
       className="min-h-screen flex items-center relative overflow-hidden"
     >
-      {/* Spline 3D Background — Desktop Scene */}
-      <div className="spline-container hidden md:block z-0 w-full h-[120%]">
-        <Suspense fallback={null}>
-          <Spline scene="https://prod.spline.design/7RKcpSScLxhwqscW/scene.splinecode" />
-        </Suspense>
-      </div>
-
-      {/* Spline 3D Background — Mobile Scene */}
-      <div className="spline-container block md:hidden z-0 w-full h-[120%] opacity-[0.4]">
-        <Suspense fallback={null}>
-          <Spline scene="https://prod.spline.design/8VioTqljzycarKCr/scene.splinecode" />
-        </Suspense>
-      </div>
+      {/* Spline 3D Background — Rendered conditionally via React so iOS doesn't crash */}
+      {isMobile !== null && (
+        <div className={`spline-container z-0 w-full h-[120%] ${isMobile ? 'opacity-[0.4]' : ''}`}>
+          <Suspense fallback={null}>
+            {isMobile ? (
+              <Spline scene="https://prod.spline.design/8VioTqljzycarKCr/scene.splinecode" />
+            ) : (
+              <Spline scene="https://prod.spline.design/7RKcpSScLxhwqscW/scene.splinecode" />
+            )}
+          </Suspense>
+        </div>
+      )}
 
       {/* Subtle shadow behind text only — keeps Spline fully visible */}
       <div
