@@ -9,13 +9,36 @@ export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const [isSplineLoaded, setIsSplineLoaded] = useState(false);
+  const [hasWebGL, setHasWebGL] = useState<boolean>(true); // assume true initially
   const { t } = useLanguage();
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100);
 
+    // Check WebGL / Hardware Acceleration Support
+    const checkWebGL = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        // A flag failIfMajorPerformanceCaveat garante que se o navegador estiver
+        // rodando no modo "Software" (sem aceleração de placa de vídeo real), ele retorna null.
+        const gl = (
+          canvas.getContext('webgl', { failIfMajorPerformanceCaveat: true }) || 
+          canvas.getContext('experimental-webgl', { failIfMajorPerformanceCaveat: true })
+        ) as WebGLRenderingContext | null;
+        
+        if (!gl) {
+          setHasWebGL(false);
+          return;
+        }
+        
+        setHasWebGL(true);
+      } catch (e) {
+        setHasWebGL(false);
+      }
+    };
+    checkWebGL();
+
     // Check screen size to render only ONE Spline scene at a time
-    // Important: iOS Safari breaks/fails if multiple WebGL contexts load simultaneously
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile(); // Check initial size
     window.addEventListener('resize', checkMobile);
@@ -37,40 +60,48 @@ export default function Hero() {
       {/* 3D Scene Placeholders & Spline Canvas */}
       {isMobile !== null && (
         <>
-          {/* Blurred Placeholder Images (Static background) */}
+          {/* Static Background Image */}
           <div 
-            className={`absolute top-0 left-0 z-[-1] w-full h-[120%] pointer-events-none ${
-              isMobile ? 'opacity-[0.4]' : 'opacity-100'
+            className={`absolute top-0 left-0 w-full h-[120%] pointer-events-none ${
+              hasWebGL ? 'z-[-1]' : 'z-0 transition-opacity duration-[1500ms] delay-200'
+            } ${
+              hasWebGL 
+                ? (isMobile ? 'opacity-[0.4]' : 'opacity-100') 
+                : (isVisible ? 'opacity-100' : 'opacity-0')
             }`}
           >
             <img 
               src={isMobile ? '/lazy2.png' : '/lazy.png'} 
               alt="" 
-              className="w-full h-full object-cover blur-sm scale-90"
+              className={`w-full h-full object-cover ${
+                hasWebGL ? 'blur-sm scale-100' : (isMobile ? 'scale-105 blur-[2px]' : 'blur-[1px]')
+              }`}
               aria-hidden="true"
             />
           </div>
 
-          {/* Spline 3D Background */}
-          <div 
-            className={`spline-container z-0 w-full h-[120%] ${
-              isMobile ? 'opacity-[0.4]' : 'opacity-100'
-            }`}
-          >
-            <Suspense fallback={null}>
-              {isMobile ? (
-                <Spline 
-                  scene="https://prod.spline.design/8VioTqljzycarKCr/scene.splinecode" 
-                  onLoad={() => setIsSplineLoaded(true)}
-                />
-              ) : (
-                <Spline 
-                  scene="https://prod.spline.design/7RKcpSScLxhwqscW/scene.splinecode" 
-                  onLoad={() => setIsSplineLoaded(true)}
-                />
-              )}
-            </Suspense>
-          </div>
+          {/* Spline 3D Background - ONLY render if Hardware Acceleration is available */}
+          {hasWebGL && (
+            <div 
+              className={`spline-container z-0 w-full h-[120%] transition-opacity duration-[1500ms] ${
+                isSplineLoaded ? (isMobile ? 'opacity-[0.4]' : 'opacity-100') : 'opacity-0'
+              }`}
+            >
+              <Suspense fallback={null}>
+                {isMobile ? (
+                  <Spline 
+                    scene="https://prod.spline.design/8VioTqljzycarKCr/scene.splinecode" 
+                    onLoad={() => setIsSplineLoaded(true)}
+                  />
+                ) : (
+                  <Spline 
+                    scene="https://prod.spline.design/7RKcpSScLxhwqscW/scene.splinecode" 
+                    onLoad={() => setIsSplineLoaded(true)}
+                  />
+                )}
+              </Suspense>
+            </div>
+          )}
         </>
       )}
 
