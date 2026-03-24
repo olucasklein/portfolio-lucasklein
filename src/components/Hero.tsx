@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState, Suspense, lazy } from 'react';
+import { useEffect, useState, Suspense, lazy, useRef } from 'react';
+import type { Application } from '@splinetool/runtime';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Spline = lazy(() => import('@splinetool/react-spline'));
@@ -11,6 +12,14 @@ export default function Hero() {
   const [isSplineLoaded, setIsSplineLoaded] = useState(false);
   const [hasWebGL, setHasWebGL] = useState<boolean>(true); // assume true initially
   const { t } = useLanguage();
+
+  const splineAppRef = useRef<Application | null>(null);
+  const heroRef = useRef<HTMLElement>(null);
+
+  const onLoad = (app: Application) => {
+    splineAppRef.current = app;
+    setIsSplineLoaded(true);
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100);
@@ -49,11 +58,33 @@ export default function Hero() {
     };
   }, []);
 
+  // Intersection Observer para pausar o spline quando estiver fora de tela
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          splineAppRef.current?.play();
+        } else {
+          splineAppRef.current?.stop();
+        }
+      });
+    }, { threshold: 0 });
+
+    if (heroRef.current) {
+      observer.observe(heroRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   // Determine final opacity based on mobile or desktop
   const splineOpacityClass = isMobile ? 'opacity-[0.4]' : 'opacity-100';
 
   return (
     <section
+      ref={heroRef}
       id="inicio"
       className="min-h-screen flex items-center relative overflow-hidden"
     >
@@ -62,7 +93,7 @@ export default function Hero() {
         <>
           {/* Static Background Image */}
           <div 
-            className={`absolute top-0 left-0 w-full h-[120%] pointer-events-none ${
+            className={`absolute top-0 left-0 w-full h-[110%] pointer-events-none -scale-x-100 ${
               hasWebGL ? 'z-[-1]' : 'z-0 transition-opacity duration-[1500ms] delay-200'
             } ${
               hasWebGL 
@@ -74,7 +105,7 @@ export default function Hero() {
               src={isMobile ? '/lazy2.png' : '/lazy.png'} 
               alt="" 
               className={`w-full h-full object-cover ${
-                hasWebGL ? 'blur-sm scale-100' : (isMobile ? 'scale-105 blur-[2px]' : 'blur-[1px]')
+                hasWebGL ? 'blur-sm scale-100' : (isMobile ? 'scale-105 blur-[4px]' : 'blur-[4px]')
               }`}
               aria-hidden="true"
             />
@@ -83,7 +114,7 @@ export default function Hero() {
           {/* Spline 3D Background - ONLY render if Hardware Acceleration is available */}
           {hasWebGL && (
             <div 
-              className={`spline-container z-0 w-full h-[120%] transition-opacity duration-[1500ms] ${
+              className={`spline-container z-0 w-full h-[110%] transition-opacity duration-[1500ms] ${
                 isSplineLoaded ? (isMobile ? 'opacity-[0.4]' : 'opacity-100') : 'opacity-0'
               }`}
             >
@@ -91,12 +122,12 @@ export default function Hero() {
                 {isMobile ? (
                   <Spline 
                     scene="https://prod.spline.design/8VioTqljzycarKCr/scene.splinecode" 
-                    onLoad={() => setIsSplineLoaded(true)}
+                    onLoad={onLoad}
                   />
                 ) : (
                   <Spline 
                     scene="https://prod.spline.design/7RKcpSScLxhwqscW/scene.splinecode" 
-                    onLoad={() => setIsSplineLoaded(true)}
+                    onLoad={onLoad}
                   />
                 )}
               </Suspense>
