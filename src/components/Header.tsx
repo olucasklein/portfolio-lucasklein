@@ -52,9 +52,10 @@ export default function Header() {
             {/* Logo */}
             <a
               href="#inicio"
-              className="font-serif text-xl tracking-tight text-white hover:opacity-80 transition-opacity"
+              className="hover:opacity-80 transition-opacity flex items-center"
+              aria-label="Lucas Klein"
             >
-              Lucas Klein
+              <img src="/favicon.svg" alt="Lucas Klein Logo" className="h-9 w-auto" />
             </a>
 
             {/* Desktop Nav */}

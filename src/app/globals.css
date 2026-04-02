@@ -240,24 +240,28 @@ body {
   background: linear-gradient(to right, transparent, var(--border), transparent);
 }
 
-/* Tag pill */
+/* Tag pill - Premium Minimalist Glass */
 .tag {
   display: inline-flex;
   align-items: center;
   padding: 6px 14px;
   border-radius: 100px;
-  border: 1px solid var(--border);
   font-size: 12px;
   font-weight: 400;
-  letter-spacing: 0.03em;
-  color: var(--muted);
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   transition: all 0.3s ease;
-  background: transparent;
 }
 
 .tag:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  color: var(--foreground);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  transform: translateY(-1px);
 }
 
 /* Experience item */
@@ -293,50 +297,64 @@ body {
   border-color: rgba(255, 255, 255, 0.4);
 }
 
-/* Button */
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 32px;
-  background: var(--foreground);
-  color: var(--background);
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 100px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  letter-spacing: 0.02em;
-}
+/* ============ MODERN PREMIUM UI (Stitch/Linear Style) ============ */
 
-.btn-primary:hover {
-  background: #fff;
-  transform: scale(1.02);
-}
-
+/* Shared base for large interactive buttons */
+.btn-primary,
 .btn-outline {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 14px 32px;
-  background: transparent;
-  color: var(--foreground);
+  padding: 14px 28px;
   font-size: 14px;
   font-weight: 500;
   border-radius: 100px;
-  border: 1px solid var(--border);
   cursor: pointer;
-  transition: all 0.3s ease;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+/* PRIMARY - Solid White (Like Stitch "Try now" button) */
+.btn-primary {
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid transparent;
+}
+
+.btn-primary:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+/* OUTLINE - Sleek Dark Frosted Glass (Like Stitch Input Area) */
+.btn-outline {
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  /* Highlight inside top edge */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .btn-outline:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transform: translateY(-2px);
 }
 
-/* Social icon */
+.btn-outline:active {
+  transform: scale(0.97);
+}
+
+/* Social icon — Sleek Dark Frosted Glass */
 .social-icon {
   display: flex;
   align-items: center;
@@ -344,15 +362,25 @@ body {
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  transition: all 0.3s ease;
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .social-icon:hover {
-  color: var(--foreground);
-  border-color: rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.social-icon:active {
+  transform: scale(0.95);
 }
 
 /* Scroll-triggered animation helper */
@@ -394,29 +422,38 @@ img {
   transition: opacity 0.4s ease;
 }
 
-/* lang toggle */
+/* lang toggle container - Clean Glass */
 .lang-toggle {
   display: flex;
   align-items: center;
   gap: 4px;
   padding: 4px;
-  border: 1px solid var(--foreground);
   border-radius: 100px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* lang button - Clean Segment */
 .lang-btn {
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 100px;
   font-size: 12px;
   font-weight: 500;
-  color: var(--foreground);
+  color: rgba(255, 255, 255, 0.5);
   transition: all 0.3s ease;
   background: transparent;
   border: none;
   cursor: pointer;
 }
 
+.lang-btn:hover:not(.active) {
+  color: rgba(255, 255, 255, 0.9);
+}
+
 .lang-btn.active {
-  color: var(--background);
-  background: var(--foreground);
+  color: #000;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
