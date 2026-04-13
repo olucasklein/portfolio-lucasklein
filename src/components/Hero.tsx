@@ -1,234 +1,52 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// ─── Aurora Background via IFrame ────────────────────────────────────────────
 
-interface Dot {
-  bx: number; by: number;  // base position
-  x: number;  y: number;   // current (displaced) position
-  r: number;               // radius
-  a: number;               // alpha
-}
-
-interface AuroraBlob {
-  xFactor: number;
-  yFactor: number;
-  rx: number;
-  ry: number;
-  rotation: number;
-  color: [number, number, number];
-  phaseOffset: number;
-  speedMult: number;
-}
-
-// ─── Aurora Canvas ─────────────────────────────────────────────────────────────
-
-function AuroraCanvas() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  // Store mouse in a ref so it's always fresh inside rAF without re-renders
-  const mouse = useRef({ x: -9999, y: -9999 });
+function AuroraBackground() {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current!;
-    const ctx = canvas.getContext('2d')!;
-    let raf = 0;
-    let t = 0;
-    let dots: Dot[] = [];
+    const iframe = iframeRef.current;
+    if (!iframe) return;
 
-    // ── Config ──────────────────────────────────────────────────────────────
-    const DOT_GAP    = 26;
-    const DOT_BASE_R = 1.0;
-    const GRAVITY_R  = 160;   // black hole radius of influence
-    const GRAV_STR   = 0.72;  // max pull factor (0=none, 1=fully snapped to cursor)
-
-    // Aurora blobs — positioned lower half, sweeping diagonally
-    const blobs: AuroraBlob[] = [
-      // Giant violet bottom-left anchor
-      { xFactor: 0.08, yFactor: 0.88, rx: 0.68, ry: 0.28, rotation: -0.20,
-        color: [120, 40, 230], phaseOffset: 0.0, speedMult: 1.0 },
-      // Purple center ribbon
-      { xFactor: 0.42, yFactor: 0.92, rx: 0.60, ry: 0.22, rotation: -0.12,
-        color: [180, 40, 220], phaseOffset: 1.1, speedMult: 0.85 },
-      // Cyan/teal right
-      { xFactor: 0.82, yFactor: 0.84, rx: 0.52, ry: 0.24, rotation: -0.08,
-        color: [20, 200, 200], phaseOffset: 2.3, speedMult: 0.95 },
-      // Blue-indigo left bridge
-      { xFactor: 0.26, yFactor: 0.96, rx: 0.48, ry: 0.18, rotation: -0.18,
-        color: [80, 80, 240], phaseOffset: 0.6, speedMult: 1.1 },
-      // Magenta accent mid-right
-      { xFactor: 0.62, yFactor: 0.90, rx: 0.38, ry: 0.16, rotation: -0.10,
-        color: [210, 30, 180], phaseOffset: 1.8, speedMult: 0.78 },
-      // Deep emerald far-right
-      { xFactor: 0.95, yFactor: 0.93, rx: 0.30, ry: 0.14, rotation: -0.05,
-        color: [10, 180, 120], phaseOffset: 3.0, speedMult: 0.90 },
-    ];
-
-    // ── Build dot grid ────────────────────────────────────────────────────────
-    const buildDots = (w: number, h: number) => {
-      dots = [];
-      for (let bx = DOT_GAP / 2; bx < w; bx += DOT_GAP) {
-        for (let by = DOT_GAP / 2; by < h; by += DOT_GAP) {
-          dots.push({ bx, by, x: bx, y: by, r: DOT_BASE_R, a: 0.10 });
-        }
+    const handleMouseMove = (e: MouseEvent) => {
+      if (iframe.contentWindow) {
+        iframe.contentWindow.postMessage({
+          type: 'mousemove',
+          x: e.clientX,
+          y: e.clientY,
+        }, '*');
       }
     };
 
-    // ── Resize ────────────────────────────────────────────────────────────────
-    const resize = () => {
-      canvas.width  = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-      buildDots(canvas.width, canvas.height);
-    };
-    resize();
-    const ro = new ResizeObserver(resize);
-    ro.observe(canvas);
-
-    // ── Mouse — listen on window so canvas pointer-events:none still works ────
-    const onMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-    };
-    const onLeave = () => { mouse.current = { x: -9999, y: -9999 }; };
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseleave', onLeave);
-
-    // ── Draw aurora layer ─────────────────────────────────────────────────────
-    const drawBlob = (
-      w: number, h: number,
-      blob: AuroraBlob,
-      time: number
-    ) => {
-      const { xFactor, yFactor, rx, ry, rotation, color, phaseOffset, speedMult } = blob;
-      const p  = time * 0.0018 * speedMult + phaseOffset;
-
-      // Organic positional drift (amplified for visible movement)
-      const cx = (xFactor + Math.sin(p * 0.8) * 0.18) * w;
-      const cy = (yFactor + Math.cos(p * 0.9) * 0.12) * h;
-      
-      // Dynamic rotation and pulsating size
-      const rot = rotation + Math.sin(p * 0.5) * 0.4;
-      const rX  = rx * w * (1 + Math.sin(p * 1.2) * 0.15);
-      const rY  = ry * h * (1 + Math.cos(p * 1.1) * 0.15);
-
-      ctx.save();
-      ctx.translate(cx, cy);
-      ctx.rotate(rot);
-
-      // Soft outer halo — very subtle
-      ctx.filter = 'blur(70px)';
-      const outerGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, Math.max(rX, rY) * 1.4);
-      outerGrad.addColorStop(0,   `rgba(${color[0]},${color[1]},${color[2]},0.22)`);
-      outerGrad.addColorStop(0.5, `rgba(${color[0]},${color[1]},${color[2]},0.07)`);
-      outerGrad.addColorStop(1,   `rgba(${color[0]},${color[1]},${color[2]},0)`);
-      ctx.fillStyle = outerGrad;
-      ctx.beginPath();
-      ctx.ellipse(0, 0, rX * 1.4, rY * 1.4, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Inner core — atmospheric glow
-      ctx.filter = 'blur(28px)';
-      const innerGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, Math.max(rX, rY) * 0.75);
-      innerGrad.addColorStop(0,   `rgba(${color[0]},${color[1]},${color[2]},0.38)`);
-      innerGrad.addColorStop(0.55,`rgba(${color[0]},${color[1]},${color[2]},0.14)`);
-      innerGrad.addColorStop(1,   `rgba(${color[0]},${color[1]},${color[2]},0)`);
-      ctx.fillStyle = innerGrad;
-      ctx.beginPath();
-      ctx.ellipse(0, 0, rX, rY, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.filter = 'none';
-      ctx.restore();
+    const handleMouseLeave = () => {
+      if (iframe.contentWindow) {
+        iframe.contentWindow.postMessage({
+          type: 'mouseleave',
+        }, '*');
+      }
     };
 
-    // ── Render loop ───────────────────────────────────────────────────────────
-    const render = () => {
-      t++;
-      const w = canvas.width;
-      const h = canvas.height;
-      const mx = mouse.current.x;
-      const my = mouse.current.y;
-
-      ctx.clearRect(0, 0, w, h);
-
-      // Dark base
-      ctx.fillStyle = '#07070a';
-      ctx.fillRect(0, 0, w, h);
-
-      // ── Aurora — blended with 'screen' for luminous color mixing ──
-      ctx.save();
-      ctx.globalCompositeOperation = 'screen';
-      blobs.forEach(blob => drawBlob(w, h, blob, t));
-      ctx.restore();
-
-      // ── Top gradient mask — keeps aurora in lower half ──
-      ctx.save();
-      const topMask = ctx.createLinearGradient(0, 0, 0, h * 0.65);
-      topMask.addColorStop(0,   'rgba(7,7,10,1)');
-      topMask.addColorStop(0.6, 'rgba(7,7,10,0.6)');
-      topMask.addColorStop(1,   'rgba(7,7,10,0)');
-      ctx.fillStyle = topMask;
-      ctx.fillRect(0, 0, w, h * 0.65);
-      ctx.restore();
-
-      // ── Interactive dots — black hole gravity well ──
-      ctx.save();
-      ctx.globalCompositeOperation = 'source-over';
-
-      dots.forEach(d => {
-        const ddx  = mx - d.bx;
-        const ddy  = my - d.by;
-        const dist = Math.sqrt(ddx * ddx + ddy * ddy);
-
-        if (dist < GRAVITY_R && mx > 0) {
-          // Normalised distance 0 (at cursor) → 1 (edge of radius)
-          const t = dist / GRAVITY_R;
-          // Pull factor: strong near center, zero at edge — eased with (1-t)²
-          const pull = GRAV_STR * (1 - t) * (1 - t);
-
-          // Displace dot TOWARD the cursor
-          d.x = d.bx + ddx * pull;
-          d.y = d.by + ddy * pull;
-
-          // Void in the center: dots very close fully disappear
-          // t=0 → a=0 (invisible), t=1 → a=baseA (full)
-          d.a = 0.10 * Math.pow(t, 0.6);
-          d.r = DOT_BASE_R * (0.3 + t * 0.7);
-        } else {
-          // Snap back smoothly
-          d.x += (d.bx - d.x) * 0.12;
-          d.y += (d.by - d.y) * 0.12;
-          d.a += (0.10   - d.a) * 0.10;
-          d.r += (DOT_BASE_R - d.r) * 0.10;
-        }
-
-        ctx.fillStyle = `rgba(255,255,255,${d.a})`;
-        ctx.beginPath();
-        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      ctx.restore();
-
-      raf = requestAnimationFrame(render);
-    };
-
-    render();
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      cancelAnimationFrame(raf);
-      ro.disconnect();
-      window.removeEventListener('mousemove', onMove);
-      window.removeEventListener('mouseleave', onLeave);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
+    <iframe
+      ref={iframeRef}
+      src="/aurora.html"
       className="absolute inset-0 w-full h-full pointer-events-none"
+      frameBorder="0"
       aria-hidden="true"
+      title="Aurora animation background"
     />
   );
 }
@@ -250,7 +68,7 @@ export default function Hero() {
       className="min-h-screen flex items-center relative overflow-hidden"
       style={{ background: '#07070a' }}
     >
-      <AuroraCanvas />
+      <AuroraBackground />
 
       {/* Content */}
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full relative z-10">

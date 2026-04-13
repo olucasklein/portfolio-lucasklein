@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-touch-callout: none;
+        }
+        body {
+            background: #07070a;
+            overflow: hidden;
+            position: relative;
+            touch-action: none;
+            pointer-events: auto;
+        }
+        #svg-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            mix-blend-mode: screen;
+            z-index: 1;
+            pointer-events: none;
+            touch-action: none;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+            touch-action: none;
+        }
+    </style>
+</head>
+<body>
+    <svg id="svg-bg">
+        <defs>
+            <filter id="blur">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="25"/>
+            </filter>
+        </defs>
+        <!-- 6 pre-made ellipses, will update via JS -->
+        <ellipse id="blob0" filter="url(#blur)"/>
+        <ellipse id="blob1" filter="url(#blur)"/>
+        <ellipse id="blob2" filter="url(#blur)"/>
+        <ellipse id="blob3" filter="url(#blur)"/>
+        <ellipse id="blob4" filter="url(#blur)"/>
+        <ellipse id="blob5" filter="url(#blur)"/>
+    </svg>
+    <canvas id="canvas"></canvas>
+    <script>
+        const svg = document.getElementById('svg-bg');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: false });
+        
+        let raf = 0;
+        let t = 0;
+        let dots = [];
+        
+        const TWO_PI = Math.PI * 2;
+        const DOT_GAP = 28;
+        const DOT_BASE_R = 1.0;
+        const GRAVITY_R = 160;
+        const GRAV_STR = 0.72;
+        const GRAVITY_R_SQ = GRAVITY_R * GRAVITY_R;
+        
+        let mouse = { x: -9999, y: -9999 };
+        let svgEllipses = [];
+        
+        // Aurora blobs - BOREALIS colors
+        const blobs = [
+            { xFactor: 0.08, yFactor: 1.05, rx: 0.75, ry: 0.32, rotation: -0.20,
+              color: [100, 150, 255], phaseOffset: 0.0, speedMult: 1.8 },
+            { xFactor: 0.42, yFactor: 1.10, rx: 0.65, ry: 0.28, rotation: -0.12,
+              color: [200, 50, 255], phaseOffset: 1.1, speedMult: 1.6 },
+            { xFactor: 0.82, yFactor: 1.00, rx: 0.58, ry: 0.30, rotation: -0.08,
+              color: [100, 220, 255], phaseOffset: 2.3, speedMult: 1.7 },
+            { xFactor: 0.26, yFactor: 1.12, rx: 0.52, ry: 0.22, rotation: -0.18,
+              color: [150, 100, 255], phaseOffset: 0.6, speedMult: 1.9 },
+            { xFactor: 0.62, yFactor: 1.08, rx: 0.42, ry: 0.20, rotation: -0.10,
+              color: [80, 180, 255], phaseOffset: 1.8, speedMult: 1.5 },
+            { xFactor: 0.95, yFactor: 1.11, rx: 0.35, ry: 0.18, rotation: -0.05,
+              color: [180, 100, 255], phaseOffset: 3.0, speedMult: 1.7 },
+        ];
+        
+        function resizeCanvas() {
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            canvas.width = w;
+            canvas.height = h;
+            buildDots();
+        }
+        
+        function buildDots() {
+            dots = [];
+            for (let bx = DOT_GAP / 2; bx < canvas.width; bx += DOT_GAP) {
+                for (let by = DOT_GAP / 2; by < canvas.height; by += DOT_GAP) {
+                    dots.push({ bx, by, x: bx, y: by, r: DOT_BASE_R, a: 0.25 });
+                }
+            }
+        }
+        
+        function initSVGEllipses() {
+            // Get pre-made ellipse elements
+            svgEllipses = [];
+            blobs.forEach((blob, idx) => {
+                const el = document.getElementById(`blob${idx}`);
+                el.setAttribute('fill', `rgb(${blob.color[0]},${blob.color[1]},${blob.color[2]})`);
+                el.setAttribute('fill-opacity', '0.30');
+                svgEllipses.push(el);
+            });
+        }
+        
+        function updateSVGAurora(w, h, time) {
+            blobs.forEach((blob, idx) => {
+                const { xFactor, yFactor, rx, ry, rotation, phaseOffset, speedMult } = blob;
+                const p = time * 0.0025 * speedMult + phaseOffset;
+                
+                const cx = (xFactor + Math.sin(p * 0.8) * 0.18) * w;
+                const cy = (yFactor + Math.cos(p * 0.9) * 0.12) * h;
+                
+                const rot = rotation + Math.sin(p * 0.5) * 0.4;
+                const rX = rx * w * (1 + Math.sin(p * 1.2) * 0.15);
+                const rY = ry * h * (1 + Math.cos(p * 1.1) * 0.15);
+                
+                // Viewport culling
+                const blobRadius = Math.max(rX, rY) * 1.5;
+                if (cx + blobRadius < 0 || cx - blobRadius > w ||
+                    cy + blobRadius < 0 || cy - blobRadius > h) {
+                    svgEllipses[idx].setAttribute('cx', '-9999');
+                    return;
+                }
+                
+                const el = svgEllipses[idx];
+                el.setAttribute('cx', cx);
+                el.setAttribute('cy', cy);
+                el.setAttribute('rx', rX);
+                el.setAttribute('ry', rY);
+                el.setAttribute('transform', `rotate(${rot * 180 / Math.PI} ${cx} ${cy})`);
+            });
+        }
+        
+        function render() {
+            t++;
+            const w = canvas.width;
+            const h = canvas.height;
+            const mx = mouse.x;
+            const my = mouse.y;
+            
+            // Update SVG aurora every frame (SVG is super lightweight)
+            updateSVGAurora(w, h, t);
+            
+            // Clear canvas for dots
+            ctx.fillStyle = '#07070a';
+            ctx.fillRect(0, 0, w, h);
+            
+            // Interactive dots
+            ctx.save();
+            ctx.globalCompositeOperation = 'source-over';
+            
+            const cullMargin = GRAVITY_R + 50;
+            const cursorRange = mx > 0 && mx < w && my > 0 && my < h;
+            let lastAlpha = -1;
+            
+            dots.forEach(d => {
+                if (!cursorRange && (d.bx + cullMargin < 0 || d.bx - cullMargin > w ||
+                                     d.by + cullMargin < 0 || d.by - cullMargin > h)) {
+                    return;
+                }
+                
+                const ddx = mx - d.bx;
+                const ddy = my - d.by;
+                const distSq = ddx * ddx + ddy * ddy;
+                
+                if (distSq < GRAVITY_R_SQ && cursorRange) {
+                    const dist = Math.sqrt(distSq);
+                    const tt = dist / GRAVITY_R;
+                    const tPow = Math.pow(tt, 0.6);
+                    
+                    d.x = d.bx + ddx * GRAV_STR * (1 - tt) * (1 - tt);
+                    d.y = d.by + ddy * GRAV_STR * (1 - tt) * (1 - tt);
+                    d.a = 0.25 * tPow;
+                    d.r = DOT_BASE_R * (0.3 + tt * 0.7);
+                } else {
+                    if (Math.abs(d.x - d.bx) > 0.5 || Math.abs(d.y - d.by) > 0.5) {
+                        d.x += (d.bx - d.x) * 0.12;
+                        d.y += (d.by - d.y) * 0.12;
+                        d.a += (0.25 - d.a) * 0.10;
+                        d.r += (DOT_BASE_R - d.r) * 0.10;
+                    } else {
+                        d.x = d.bx;
+                        d.y = d.by;
+                        d.a = 0.25;
+                        d.r = DOT_BASE_R;
+                    }
+                }
+                
+                const alphaInt = Math.round(d.a * 1000);
+                if (alphaInt !== lastAlpha) {
+                    lastAlpha = alphaInt;
+                    ctx.fillStyle = `rgba(255,255,255,${d.a})`;
+                }
+                
+                ctx.beginPath();
+                ctx.arc(d.x, d.y, d.r, 0, TWO_PI);
+                ctx.fill();
+            });
+            
+            ctx.restore();
+            
+            raf = requestAnimationFrame(render);
+        }
+        
+        resizeCanvas();
+        initSVGEllipses();
+        window.addEventListener('resize', resizeCanvas);
+        
+        // Listen for mouse position from parent
+        window.addEventListener('message', (e) => {
+            if (e.data.type === 'mousemove') {
+                mouse.x = e.data.x;
+                mouse.y = e.data.y;
+            } else if (e.data.type === 'mouseleave') {
+                mouse.x = -9999;
+                mouse.y = -9999;
+            }
+        });
+        
+        // Only add click prevention on desktop
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        if (!isMobile) {
+            document.addEventListener('click', (e) => {
+                if (e.target === canvas || e.target === svg || e.target === document.body) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }, true);
+        }
+        
+        render();
+    </script>
+</body>
+</html>
