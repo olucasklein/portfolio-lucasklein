@@ -1,6 +1,6 @@
 # 💼 Portfolio - Lucas Klein
 
-<img src="public/example.png" width="100%" />
+<!-- <img src="public/example.png" width="100%" /> -->
 
 <div align="center">
 
