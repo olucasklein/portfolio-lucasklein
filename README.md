@@ -126,14 +126,6 @@ className="bg-theme-gradient-br"
 className="gradient-text"
 ```
 
-#### Como Alterar o Tema Globalmente:
-Edite apenas as variáveis em `src/app/globals.css`:
-```css
---gradient-start: #seu-color-1;
---gradient-middle: #seu-color-2;
---gradient-end: #seu-color-3;
-```
-
 Todos os componentes atualizarão automaticamente! ✨
 
 ### Animações Customizadas
